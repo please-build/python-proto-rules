@@ -1,0 +1,30 @@
+[Plugin "python"]
+# Use plugin's defaults
+
+[Plugin "proto"]
+ProtocTool = //third_party/proto:protoc
+LanguageDef = //build_defs:python
+
+[Plugin "python_proto"]
+# Use this plugin's defaults
+
+[PluginDefinition]
+Name = python_proto
+
+[PluginConfig "plugin"]
+ConfigKey = ProtoPlugin
+DefaultValue = grpc_python_plugin
+Inherit = true
+
+[PluginConfig "proto_dep"]
+ConfigKey = ProtoDep
+DefaultValue = //third_party/python:protobuf
+Inherit = true
+
+[PluginConfig "grpc_dep"]
+ConfigKey = GrpcDep
+DefaultValue = //third_party/python:grpc
+Inherit = true
+
+[FeatureFlags]
+ExcludePythonRules = true
