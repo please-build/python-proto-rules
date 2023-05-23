@@ -1,6 +1,6 @@
 import unittest
 
-from test.proto import service_pb2, service_pb2_grpc
+from test.proto import service_pb2, service_grpc
 
 
 class ServiceTest(unittest.TestCase):
@@ -8,8 +8,6 @@ class ServiceTest(unittest.TestCase):
         message = service_pb2.HelloRequest()
         self.assertIsNotNone(message)
 
-        service = service_pb2_grpc.HelloServiceServicer()
+        service = service_grpc.HelloServiceStub(None)
         self.assertIsNotNone(service)
-
-
 

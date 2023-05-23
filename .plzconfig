@@ -1,12 +1,14 @@
 [Plugin "python"]
-# Use plugin's defaults
+Target = //plugins:python
 
 [Plugin "proto"]
+Target = //plugins:proto
 ProtocTool = //third_party/proto:protoc
 LanguageDef = //build_defs:python
 
 [Plugin "python_proto"]
-# Use this plugin's defaults
+ProtoPlugin = //protoc_plugin:plugin
+GrpcDep = //third_party/python:grpc
 
 [PluginDefinition]
 Name = python_proto
@@ -25,6 +27,3 @@ Inherit = true
 ConfigKey = GrpcDep
 DefaultValue = //third_party/python:grpc
 Inherit = true
-
-[FeatureFlags]
-ExcludePythonRules = true
