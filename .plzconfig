@@ -8,13 +8,14 @@ LanguageDef = //build_defs:python
 
 [Plugin "python_proto"]
 ProtoPlugin = //protoc_plugin:plugin
+GrpcDep = //third_party/python:grpc
 
 [PluginDefinition]
 Name = python_proto
 
 [PluginConfig "plugin"]
 ConfigKey = ProtoPlugin
-DefaultValue = /home/jpoole/.local/bin/protoc-gen-python_grpc
+DefaultValue = grpc_python_plugin
 Inherit = true
 
 [PluginConfig "proto_dep"]
@@ -24,5 +25,5 @@ Inherit = true
 
 [PluginConfig "grpc_dep"]
 ConfigKey = GrpcDep
-DefaultValue = //third_party/python:grpclib
+DefaultValue = //third_party/python:grpc
 Inherit = true
