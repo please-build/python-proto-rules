@@ -1,19 +1,20 @@
 [Plugin "python"]
-# Use plugin's defaults
+Target = //plugins:python
 
 [Plugin "proto"]
+Target = //plugins:proto
 ProtocTool = //third_party/proto:protoc
 LanguageDef = //build_defs:python
 
 [Plugin "python_proto"]
-# Use this plugin's defaults
+ProtoPlugin = //protoc_plugin:plugin
 
 [PluginDefinition]
 Name = python_proto
 
 [PluginConfig "plugin"]
 ConfigKey = ProtoPlugin
-DefaultValue = grpc_python_plugin
+DefaultValue = /home/jpoole/.local/bin/protoc-gen-python_grpc
 Inherit = true
 
 [PluginConfig "proto_dep"]
@@ -23,8 +24,5 @@ Inherit = true
 
 [PluginConfig "grpc_dep"]
 ConfigKey = GrpcDep
-DefaultValue = //third_party/python:grpc
+DefaultValue = //third_party/python:grpclib
 Inherit = true
-
-[FeatureFlags]
-ExcludePythonRules = true

@@ -1,6 +1,6 @@
 subinclude("///proto//build_defs/sdk", "///python//build_defs:python")
 
-def python_grpc_library(name:str, language:str, srcs:list, deps:list=[], visibility:list=None, labels:list&features&tags=[],
+def python_grpc_library(name:str, srcs:list, deps:list=[], visibility:list=None, labels:list&features&tags=[],
                       test_only:bool&testonly=False, root_dir:str='', protoc_flags:list=[], additional_context:dict=None):
     deps += [CONFIG.PYTHON_PROTO.PROTO_DEP, CONFIG.PYTHON_PROTO.GRPC_DEP]
     tools = {'py': [CONFIG.PYTHON_PROTO.PLUGIN]}
@@ -8,7 +8,7 @@ def python_grpc_library(name:str, language:str, srcs:list, deps:list=[], visibil
     protoc = protoc_rule(
         name = name,
         srcs = srcs,
-        language = language,
+        language = 'py',
         tools = tools,
         protoc_flags = protoc_flags,
         plugin_flags = [
@@ -24,7 +24,7 @@ def python_grpc_library(name:str, language:str, srcs:list, deps:list=[], visibil
     )
 
     return python_library(
-        name = f"_{name}#{language}",
+        name = f"_{name}#py",
         srcs = [protoc],
         deps = deps,
         test_only = test_only,
@@ -32,13 +32,13 @@ def python_grpc_library(name:str, language:str, srcs:list, deps:list=[], visibil
         visibility = visibility,
     )
 
-def python_proto_library(name:str, language:str, srcs:list, deps:list=[], visibility:list=None, labels:list&features&tags=[],
+def python_proto_library(name:str, srcs:list, deps:list=[], visibility:list=None, labels:list&features&tags=[],
                       test_only:bool&testonly=False, root_dir:str='', protoc_flags:list=[], additional_context:dict=None):
     deps += [CONFIG.PYTHON_PROTO.PROTO_DEP]
     protoc = protoc_rule(
         name = name,
         srcs = srcs,
-        language = language,
+        language = 'py',
         protoc_flags = protoc_flags,
         plugin_flags = [
             '--python_out="$OUT_DIR"',
@@ -51,13 +51,33 @@ def python_proto_library(name:str, language:str, srcs:list, deps:list=[], visibi
     )
 
     return python_library(
-        name = f"_{name}#{language}",
+        name = f"_{name}#py",
         srcs = [protoc],
         deps = deps,
         test_only = test_only,
         labels = labels,
         visibility = visibility,
     )
+
+def grpclib_protoc_plugin(name: str, protoclib_dep:str, visibility:list=["PUBLIC"]):
+    main = text_file(
+        name = tag(name, "main"),
+        content = """
+import re
+import sys
+from grpclib.plugin.main import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
+        """,
+        out = "main.py",
+    )
+    return python_binary(
+       name = "plugin",
+       main = main,
+       deps = [protoclib_dep],
+       visibility = visibility,
+   )
 
 def python_grpc_language():
     return proto_language(
