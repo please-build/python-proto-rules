@@ -8,7 +8,7 @@ LanguageDef = //build_defs:python
 
 [Plugin "python_proto"]
 ProtoPlugin = //protoc_plugin:plugin
-GrpcDep = //third_party/python:grpc
+GrpcDep = //third_party/python:grpclib
 
 [PluginDefinition]
 Name = python_proto
