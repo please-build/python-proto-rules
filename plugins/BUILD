@@ -1,6 +1,6 @@
 plugin_repo(
   name = "python",
-  revision = "v1.3.0",
+  revision = "v1.7.4",
 )
 
 plugin_repo(
